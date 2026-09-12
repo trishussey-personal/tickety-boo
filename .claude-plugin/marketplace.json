@@ -1,0 +1,11 @@
+{
+  "name": "tickety-boo",
+  "owner": { "name": "Tris Hussey" },
+  "plugins": [
+    {
+      "name": "tickety-boo",
+      "source": "./",
+      "description": "Project setup and upkeep: four-job CLAUDE.md, clean workspace, learnings loop, fresh-context QA and security audits."
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+.DS_Store
+active/
+.env
+.env.*
+!.env.example
