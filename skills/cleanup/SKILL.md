@@ -5,7 +5,7 @@ disable-model-invocation: true
 argument-hint: "[optional folder, defaults to active/]"
 ---
 
-Clean up the project's generated-work folder and check the root. Target folder is `$ARGUMENTS` if given, otherwise `active/` (or `scratch/` / `tmp/` if that is what the project uses — check `CLAUDE.md`).
+Clean up the project's generated-work folder and check the root. Target folder is `$ARGUMENTS` if given, otherwise `active/` (or `scratch/` / `tmp/` if that is what the project uses — check `CLAUDE.md` or `.claude/CLAUDE.md`). For a manuscript project (has `chapters/`, `drafts/`, `research/`, `notes/`, `media/`), the scratch folder is `notes/`, and loose root files get filed by kind: prose to `drafts/` (never straight to `chapters/` — promotion is the author's call), sources to `research/`, images to `media/`, everything else to `notes/`.
 
 ## 1. Root check
 

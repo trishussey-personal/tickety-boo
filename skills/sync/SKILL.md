@@ -5,7 +5,7 @@ disable-model-invocation: true
 argument-hint: "[--gemini to also maintain GEMINI.md]"
 ---
 
-Make the agent instruction files in the current directory agree. `CLAUDE.md` is the source of truth. `AGENTS.md` is the portable copy (Codex, Cursor, pi, and others read it). `GEMINI.md` is handled only if `$ARGUMENTS` contains `--gemini`.
+Make the agent instruction files in the current directory agree. `CLAUDE.md` is the source of truth (if the project keeps it at `.claude/CLAUDE.md`, symlinks must point there: `ln -s .claude/CLAUDE.md AGENTS.md`). `AGENTS.md` is the portable copy (Codex, Cursor, pi, and others read it). `GEMINI.md` is handled only if `$ARGUMENTS` contains `--gemini`.
 
 ## 1. Inspect
 

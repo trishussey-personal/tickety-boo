@@ -1,11 +1,16 @@
 ---
 name: kickoff
-description: Set up a project folder the tickety-boo way — active/, .env.example, .gitignore, .claude/, and a four-section CLAUDE.md with AGENTS.md kept in sync. Safe to run on an existing project; it only adds what is missing.
+description: Set up a project folder the tickety-boo way — scaffold folders, .gitignore, .claude/, and a four-section CLAUDE.md. Code projects get active/, .env.example, and an AGENTS.md symlink; --manuscript gets drafts/, research/, notes/, media/ and a Ulysses-friendly layout. Safe to run on an existing project; it only adds what is missing.
 disable-model-invocation: true
-argument-hint: "[optional one-line description of the project]"
+argument-hint: "[--manuscript] [optional one-line description of the project]"
 ---
 
-Set up the current working directory as a Claude Code project. Treat `$ARGUMENTS`, if given, as a one-line description of what this project is for.
+Set up the current working directory as a Claude Code project. `$ARGUMENTS` may contain the flag `--manuscript`; the rest, if any, is a one-line description of what this project is for.
+
+Two layouts:
+
+- **Code** (default) — steps 1–5 below.
+- **Manuscript** (`--manuscript`) — a book, course, long-form piece, or any writing project. Skip to **Manuscript layout** at the end of this file. If no flag was given but the folder looks like a writing project (a `.Ulysses-Group.plist`, or only `.md`/`.docx`/`.txt` files and no dependency manifest), say so and ask which layout the user wants before touching anything.
 
 Everything below is additive. Never overwrite or delete a file that already exists; report it and move on. Work in the current directory only — do not create a subfolder for the project. Everything you need is in this file; do not go looking for templates elsewhere.
 
@@ -142,3 +147,109 @@ One short summary: what was created, what was skipped because it existed, and an
 
 - Run `/tickety-boo:learnings` after each feature to compile lab notes and preferences.
 - Run `/tickety-boo:security` before anything goes public.
+
+---
+
+## Manuscript layout (`--manuscript`)
+
+A writing project. Same four-job CLAUDE.md, different scaffold, no code-shaped rules. Everything is additive; never overwrite or move a file that exists.
+
+### M1. Take stock
+
+Note: `CLAUDE.md` / `.claude/CLAUDE.md` present? `.Ulysses-Group.plist` present (this is a Ulysses external folder — every `.md` is a sheet, every subfolder a group, dot-folders are hidden)? What `.md` files are already here and what do they look like (research, outline, chapter drafts)? git repo? If `CLAUDE.md` or `.claude/CLAUDE.md` exists, stop and point to `/tickety-boo:claude-md`.
+
+### M2. Scaffold
+
+One Bash command, creating only what is missing:
+
+```bash
+mkdir -p .claude chapters drafts research notes media \
+  && touch chapters/.gitkeep drafts/.gitkeep research/.gitkeep notes/.gitkeep media/.gitkeep \
+  && [ -f .gitignore ] || printf '.DS_Store\n.claude/settings.local.json\n' > .gitignore \
+  && [ -d .git ] || git init -q
+```
+
+- `chapters/` — the manuscript in order. One file per chapter, numbered (`01-title.md`). Only settled writing lives here.
+- `drafts/` — work in progress: partial chapters, alternate takes, fragments, anything not yet promoted to `chapters/`.
+- `research/` — prior art, sources, interview notes, anything an agent researched. Prefix agent-generated files `research-`.
+- `notes/` — outlines, working notes, ideas, decisions, session scratch. This is the scratch folder; short-lived material goes in `notes/.tmp/` if needed.
+- `media/` — images, audio, diagrams, cover files.
+- No `.env.example`, no `active/`. A manuscript has no secrets and no generated artefacts that are not one of the above.
+- `git init` is worth it (version history on drafts). If the user prefers Ulysses-only, skip it and say so.
+
+Do not move existing files into the new folders without asking — in a Ulysses folder that changes sheet locations. Offer to, with a list, and for existing prose ask whether it is settled (`chapters/`) or in progress (`drafts/`).
+
+### M3. Write CLAUDE.md
+
+Location: `.claude/CLAUDE.md` if this is a Ulysses folder (keeps it out of the sidebar; Claude Code loads it the same way), otherwise `./CLAUDE.md`. Use this template exactly, in one `Write` call:
+
+```markdown
+# CLAUDE.md
+
+Instructions for Claude Code in this folder. This is a manuscript, not a codebase. Four sections: where things are, how to work here, what tools apply, and what has already been learned.
+
+## Workspace map
+
+<!-- What the piece is, who it is for, what makes it different. Then where things live. Pointers, not summaries of the content. -->
+
+{{WHAT_THIS_IS}}
+
+- `chapters/` — the manuscript in order. One file per chapter, numbered (`01-…md`). Only settled writing. {{CHAPTERS_STATUS}}
+- `drafts/` — work in progress: partial chapters, alternate takes, fragments. Promote to `chapters/` when settled.
+- `research/` — prior art, sources, interview notes. Agent-generated research is prefixed `research-`. {{RESEARCH_POINTERS}}
+- `notes/` — outlines, working notes, ideas, decisions. Session scratch goes here, never at the root.
+- `media/` — images, audio, diagrams.
+{{ULYSSES_LINE}}
+
+## Preferences & conventions
+
+<!-- Ways of working for this manuscript. Add a line when you notice friction; remove lines that stop applying. -->
+
+- Never write to the root. Settled chapters go in `chapters/`, in-progress writing in `drafts/`, research in `research/`, everything else in `notes/`.
+- Promoting a draft to `chapters/` is the author's call. Do not move files between `drafts/` and `chapters/` on your own.
+- Do not rename, move, or delete files without asking.{{ULYSSES_RENAME_NOTE}}
+{{ULYSSES_MARKDOWN_RULE}}
+- Drafting prose goes through the `drafter` agent, which reads the author's voice guide. Do not draft in a generic voice and hand it over.
+- Before a chapter or section is called done, run it through the `critic` agent with no prior context. It hunts for unsupported claims, clichés, and gaps; it does not rewrite.
+- Research findings that change what the piece can claim go in **Lab notes** below as a dated line, so a future session does not re-research them.
+- Never put secrets or personal identifiers in these files; there is no `.env` here and there should not need to be.
+{{EXTRA_PREFERENCES}}
+
+## Capabilities
+
+<!-- Agents and sources that apply to writing work, plus the autonomy expected. -->
+
+- `drafter` agent — drafts and edits in the author's voice; hand it settled substance, audience, and length.
+- `critic` agent — critical read before anything ships; returns findings by severity.
+- `researcher` agent — further prior-art and fact checks; give it a specific question and say how deep to go.
+{{EXTRA_CAPABILITIES}}
+- Default autonomy: for a well-scoped ask (draft a section, tighten a chapter, check a claim), plan it, do it, review it, and report back.
+
+## Lab notes: what not to do
+
+<!-- Dated dead ends and findings that constrain the piece. Newest at the bottom. -->
+
+- {{DATE}}: (empty — first entry goes here)
+```
+
+Filling the placeholders:
+
+- `{{WHAT_THIS_IS}}` — two to four lines from the description argument and any existing research or outline files. If there is nothing to go on, ask for a one-liner. Name the differentiator if the material states one.
+- `{{CHAPTERS_STATUS}}` — "Not started." or a note on what exists.
+- `{{RESEARCH_POINTERS}}` — one clause per existing research file: what it settled. Read them; a research doc's bottom line is exactly what a future session needs and exactly what it would otherwise re-derive.
+- `{{ULYSSES_LINE}}` — if `.Ulysses-Group.plist` exists: "- This is a **Ulysses external folder**: every `.md` is a sheet, every subfolder a group. Ulysses edits these files directly. `.Ulysses-*.plist` files are Ulysses' own metadata — never edit, move, or delete them." Otherwise remove the line.
+- `{{ULYSSES_RENAME_NOTE}}` — if Ulysses: " Ulysses keeps state by filename." Otherwise empty.
+- `{{ULYSSES_MARKDOWN_RULE}}` — if Ulysses: "- Plain Markdown that Ulysses renders cleanly: `#` headings, no YAML frontmatter, no HTML." Otherwise remove the line.
+- `{{EXTRA_PREFERENCES}}` — only lines justified by what you found (a style guide file, a target length, a house convention). Usually empty.
+- `{{EXTRA_CAPABILITIES}}` — content sources that apply, e.g. a RAG over the author's published writing, if one is configured. Usually one line or empty.
+- `{{DATE}}` — today, ISO. **If existing research files contain findings that constrain the piece** (a term with baggage, a claim that is not novel, a source that fell through), seed Lab notes with them as dated lines instead of the empty placeholder. That is the highest-value thing this skill can do for a manuscript.
+
+Agents named above (`drafter`, `critic`, `researcher`) are the author's own; if they are not configured in this environment, keep the lines — they document intent — and say so in the report.
+
+### M4. Report
+
+What was created, what was skipped, whether `CLAUDE.md` went to `.claude/` and why, and which existing files you would move where if the user wants (do not move them). Then:
+
+- Run `/tickety-boo:learnings` after each drafting session to compile lab notes.
+- Run `/tickety-boo:cleanup` when the root or `drafts/` gets cluttered.
+- No `AGENTS.md` for manuscripts; add one later with `/tickety-boo:sync` if another agent ever works on this folder.

@@ -12,7 +12,7 @@ Run the low-hanging-fruit security pass on the current project. The point is to 
 Do these yourself, quickly, and report a pass/fail line for each:
 
 1. **Secrets in the right place.** `.env` exists or is not needed; `.env.example` exists with names only; `.gitignore` excludes `.env` and `.env.*` but not `.env.example`; `git ls-files` shows no env file tracked. Do not open `.env`.
-2. **Secrets not in chat.** Check `CLAUDE.md` contains the rule "never read, print, or echo the contents of `.env`". Add it to **Preferences & conventions** if missing.
+2. **Secrets not in chat.** Check `CLAUDE.md` (or `.claude/CLAUDE.md`) contains the rule "never read, print, or echo the contents of `.env`". Add it to **Preferences & conventions** if missing.
 3. **Package names are real.** Read the dependency manifest. For any package you do not recognise as mainstream, check it exists at the registry and is not a near-miss of a popular name. Flag anything suspicious.
 4. **Nothing card- or ID-shaped.** Grep the codebase for 13–19 digit numeric literals and for fields named like `card_number`, `ssn`, `passport`. Any hit is a finding.
 5. **Row-level security**, if there is a Supabase/Postgres/Firebase-style database: is it on for every table? If you cannot tell from the code, note it as unverified.

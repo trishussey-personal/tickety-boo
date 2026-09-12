@@ -28,7 +28,7 @@ Everything you need is in this file; do not go looking for a template elsewhere.
 
 Default mode is **conservative**: every existing line survives, either in place or moved to the section it belongs in. Only if `$ARGUMENTS` contains `--rewrite` may you compress or reword existing content, and even then you keep every fact.
 
-If there is no `CLAUDE.md` here, say so and point to `/tickety-boo:kickoff`.
+The file may be `CLAUDE.md` or `.claude/CLAUDE.md`; restructure it where it is. If neither exists, say so and point to `/tickety-boo:kickoff` (add `--manuscript` for a writing project).
 
 ## 1. Audit
 

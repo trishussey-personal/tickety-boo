@@ -7,7 +7,7 @@ argument-hint: "[optional: what the feature was]"
 
 Compile what this session learned into the project's `CLAUDE.md` so the next session starts with it already in context. `$ARGUMENTS`, if given, names the feature just finished.
 
-If there is no `CLAUDE.md`, say so and stop; `/tickety-boo:kickoff` creates one.
+The file is `CLAUDE.md` or `.claude/CLAUDE.md` (manuscript projects use the latter); check both. If neither exists, say so and stop; `/tickety-boo:kickoff` creates one.
 
 ## 1. Look back over this session
 

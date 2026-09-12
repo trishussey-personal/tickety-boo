@@ -11,6 +11,7 @@ All are user-invoked (`/tickety-boo:<name>`); none fire automatically.
 | Skill | When | What it does |
 |---|---|---|
 | `kickoff` | New project, or an old one with no `CLAUDE.md` | Scaffolds `active/`, `.env.example`, `.gitignore`, `.claude/`; writes a four-section `CLAUDE.md`; symlinks `AGENTS.md`. Additive only. |
+| `kickoff --manuscript` | A book, course, or long-form writing project | Scaffolds `chapters/` (settled), `drafts/` (in progress), `research/`, `notes/`, `media/`; writes a writing-shaped `CLAUDE.md` (at `.claude/CLAUDE.md` in Ulysses folders so it stays out of the sidebar); seeds lab notes from existing research. No `.env`, no `AGENTS.md`. |
 | `claude-md` | Existing project with a `CLAUDE.md` | Restructures it into the four sections without losing anything. Proposes before writing. `--rewrite` allows compression. |
 | `learnings` | After every feature | Compiles dead ends into dated lab notes, answers "how could this have been faster?", saves the answer as a preference. |
 | `cleanup` | Periodically | Tidies `active/`, checks nothing leaked into root. Asks before deleting. |
@@ -46,7 +47,7 @@ After editing skills, `/reload-plugins`. Agents and hooks need a reload; `SKILL.
 
 ## The loop
 
-1. `/tickety-boo:kickoff` once.
+1. `/tickety-boo:kickoff` once (`--manuscript` for writing projects).
 2. Build things. Don't add preferences you haven't earned through friction.
 3. `/tickety-boo:learnings` after each feature.
 4. `/tickety-boo:security` before going public.
