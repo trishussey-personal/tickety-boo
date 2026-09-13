@@ -1,7 +1,7 @@
 ---
 name: learnings
-description: End-of-feature compile step. Turns this session's failures and successes into dated lab notes in CLAUDE.md, and asks "how could this have been done faster?" to capture a preference. Run after every feature, even ones that worked first time.
-disable-model-invocation: true
+description: Compile this session's dead ends and non-obvious wins into dated lab notes in CLAUDE.md, and capture a "how could this have been faster?" preference. Use when the user says a feature, task, or drafting session is done, wraps up, or asks to log what was learned. Do not use mid-task or for trivial sessions with nothing to record; it always shows proposed lines and asks before writing.
+disable-model-invocation: false
 argument-hint: "[optional: what the feature was]"
 ---
 

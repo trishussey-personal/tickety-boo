@@ -8,7 +8,7 @@ The four jobs are the actual philosophy; `kickoff`, `sync`, and `distill` are ju
 
 ## Skills
 
-All are user-invoked (`/tickety-boo:<name>`); none fire automatically.
+All can be invoked as `/tickety-boo:<name>`. `learnings` and `cleanup` may also be offered by Claude when the conversation matches (a feature wrapping up, a request to tidy); both confirm before writing or deleting. The rest only run when you type them — they create structure or spend agent time, so they should never fire on a guess.
 
 | Skill | When | What it does |
 |---|---|---|
@@ -29,6 +29,8 @@ All are user-invoked (`/tickety-boo:<name>`); none fire automatically.
 | `tickety-boo:security-auditor` | Fresh-context security audit. Spawned by `/tickety-boo:security`. Read-only. |
 
 Both are deliberately given no project history — the agent that built something is biased toward believing it works.
+
+The manuscript layout's `CLAUDE.md` also refers to `drafter`, `critic`, and `researcher` agents and a `writing-rag` source. Those are **not part of this plugin** — they are the author's own user-level agents and tools. If you don't have equivalents, the generated file still reads correctly; treat those lines as a description of the roles to fill (a voice-aware drafter, a fresh-context critic, a researcher) and swap in whatever you use.
 
 ## Install
 

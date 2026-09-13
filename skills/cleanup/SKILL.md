@@ -1,7 +1,7 @@
 ---
 name: cleanup
-description: Tidy the project's scratch folder (active/) and check nothing has leaked into the root. Loose files get deleted if temporary or filed into a sensible subfolder. Asks before deleting anything.
-disable-model-invocation: true
+description: Tidy the project's scratch folder (active/, scratch/, or notes/ for manuscripts) and file or remove anything that has leaked into the project root. Use when the user asks to clean up, tidy, declutter, or organise the workspace or scratch folder. Do not use for source directories or without being asked; it always presents a plan and asks before deleting or moving anything.
+disable-model-invocation: false
 argument-hint: "[optional folder, defaults to active/]"
 ---
 
