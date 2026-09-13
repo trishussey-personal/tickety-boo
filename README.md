@@ -4,6 +4,8 @@ A Claude Code plugin that sets a project up properly and keeps it that way. Dist
 
 The idea: a `CLAUDE.md` is four jobs, not one system prompt — a compressed workspace map, your preferences, a declaration of what Claude can already do here, and a log of what has been tried. Every project gets the same four scaffold items (`.claude/`, `active/`, `.env`, `CLAUDE.md`), nothing gets written to root, and after every feature the learnings get compiled back into the file.
 
+The four jobs are the actual philosophy; `kickoff`, `sync`, and `distill` are just what implementing them looks like when there's a filesystem to write to. For adapting the same discipline to a Cowork session with no connected folder, or a claude.ai Project with no filesystem at all, see [PHILOSOPHY.md](PHILOSOPHY.md).
+
 ## Skills
 
 All are user-invoked (`/tickety-boo:<name>`); none fire automatically.
