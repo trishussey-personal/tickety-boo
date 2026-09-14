@@ -7,13 +7,17 @@ argument-hint: "[optional folder, defaults to active/]"
 
 Clean up the project's generated-work folder and check the root. Target folder is `$ARGUMENTS` if given, otherwise `active/` (or `scratch/` / `tmp/` if that is what the project uses — check `CLAUDE.md` or `.claude/CLAUDE.md`). For a manuscript project (has `chapters/`, `drafts/`, `research/`, `notes/`, `media/`), the scratch folder is `notes/`, and loose root files get filed by kind: prose to `drafts/` (never straight to `chapters/` — promotion is the author's call), sources to `research/`, images to `media/`, everything else to `notes/`.
 
+## 0. Always ignore
+
+Never propose deleting or moving these, anywhere they appear (root, scratch folder, subfolders): `.DS_Store`, `Thumbs.db`, `.gitkeep`, `.gitignore`, `.git/`. They are OS or tooling housekeeping, not clutter — leave them exactly where they are and don't list them in the plan at all.
+
 ## 1. Root check
 
-List loose files in the project root. Anything that is not project infrastructure (config files, `README`, `CLAUDE.md`, `package.json`-type manifests, lockfiles, licence) is a candidate to move. Typical leaks: `.py`/`.mjs`/`.sh` one-offs, `.txt`/`.md` notes, `.json`/`.csv` data dumps, images, screenshots, `.log` files.
+List loose files in the project root, excluding the always-ignore list above. Anything that is not project infrastructure (config files, `README`, `CLAUDE.md`, `package.json`-type manifests, lockfiles, licence) is a candidate to move. Typical leaks: `.py`/`.mjs`/`.sh` one-offs, `.txt`/`.md` notes, `.json`/`.csv` data dumps, images, screenshots, `.log` files.
 
 ## 2. Scratch folder
 
-Inside the target folder, anything in a subfolder is fine — leave it. For each loose file at the top level decide:
+Inside the target folder, anything in a subfolder is fine — leave it. For each loose file at the top level, excluding the always-ignore list above, decide:
 
 - **Temp** (partial output, `.log`, `.tmp`, duplicates, obviously superseded drafts) → delete.
 - **Worth keeping** → move into a subfolder that makes sense. Prefer an existing subfolder; create one only if nothing fits, named by what the file is for (e.g. `web-design/`, `exports/`, `research/`).
