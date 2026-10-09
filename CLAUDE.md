@@ -34,6 +34,7 @@ Fixed locations:
 - The repo is public: skills, agents, and docs must not name the author's own paths, agents, or tools. Anything environment-specific is detected at run time, not hard-coded.
 - When a standing rule changes, change it in both `skills/kickoff/SKILL.md` and `skills/claude-md/SKILL.md`, and keep the README tables in step with `skills/` and `agents/`.
 - Run `claude plugin validate .` before calling a change done; there is no test suite. Bump `version` in `.claude-plugin/plugin.json` for any user-visible change to a skill or agent.
+- Before pushing, grep the tracked files and `git log -p` for absolute home paths, `~/` paths, and personal agent or tool names; examples copied from real projects are where leaks come from.
 
 ## Capabilities
 
@@ -48,4 +49,10 @@ Fixed locations:
 
 <!-- Running log of dead ends. One dated line per entry, newest at the bottom. Failures prune the search space; record them as explicitly as successes. Compile with /tickety-boo:learnings after each feature. -->
 
-- 2026-10-08: (empty — first entry goes here)
+- 2026-10-08: Local-environment leaks testers flagged came from examples and templates lifted from the author's own projects (agent names, a voice guide, a tool block, a folder name, a `~/` install path), not from secrets. History has no secrets, but older commits still contain the removed personal strings, and every commit carries the author's email.
+- 2026-10-08: A symlink from a user-level skills folder to this repo does load the nested `skills/*/SKILL.md`, duplicating the installed plugin's copies. It was wrongly assumed to load nothing; check what actually loads before asserting it.
+- 2026-10-08: `kickoff` appends missing `.gitignore` lines, but an existing bare `active/` line makes the template's `!active/.gitkeep` negations inert (git can't re-include files inside an excluded folder). Unfixed in the skill.
+- 2026-10-08: `kickoff`'s writing-project heuristic ("only .md files, no manifest") is ambiguous on a plugin repo, which is all Markdown plus `plugin.json`. Treat `plugin.json` as a manifest.
+- 2026-10-08: `claude plugin validate .` passes inside the sandbox; the network denials it prints (api.anthropic.com, datadoghq) are telemetry, not failures.
+- 2026-10-08: The prompt audit is the bundled `claude-api` skill's `prompt-audit` subcommand; there is no `/checkup` command.
+- 2026-10-08: Security audit run; 13 findings; report at `active/security/audit-2026-10-08.md`.
