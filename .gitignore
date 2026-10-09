@@ -3,3 +3,11 @@ active/
 .env
 .env.*
 !.env.example
+
+# os / editor
+Thumbs.db
+.vscode/
+.idea/
+
+# claude local
+.claude/settings.local.json
