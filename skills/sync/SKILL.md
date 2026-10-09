@@ -17,7 +17,7 @@ For each of `CLAUDE.md`, `AGENTS.md`, and (if requested) `GEMINI.md`: exists? sy
 - **`AGENTS.md` missing** → create it as a relative symlink (`ln -s CLAUDE.md AGENTS.md`).
 - **`AGENTS.md` is a real file, identical** → replace it with the symlink.
 - **`AGENTS.md` is a real file, different** → diff them. Show the user what `AGENTS.md` has that `CLAUDE.md` lacks and vice versa. Propose merging the extra content into the right section of `CLAUDE.md`, then replacing `AGENTS.md` with the symlink. Wait for a go-ahead. If the user prefers separate files (some tooling chokes on symlinks), keep them separate and make the content match instead.
-- **`GEMINI.md`** (only with `--gemini`): same logic, except if it contains Gemini-specific tooling instructions (e.g. a graphify block), keep those at the top and append the shared content below rather than symlinking.
+- **`GEMINI.md`** (only with `--gemini`): same logic, except if it contains Gemini-specific tooling instructions (e.g. setup blocks written by a Gemini-only tool), keep those at the top and append the shared content below rather than symlinking.
 
 ## 3. Standing rule
 

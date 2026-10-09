@@ -1,10 +1,13 @@
 {
   "name": "tickety-boo",
   "description": "Project setup and upkeep from the Claude Code Advanced Course: four-job CLAUDE.md, clean workspace, learnings loop, fresh-context QA and security audits.",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "author": {
     "name": "Tris Hussey"
   },
+  "homepage": "https://github.com/trishussey-personal/tickety-boo",
+  "repository": "https://github.com/trishussey-personal/tickety-boo",
+  "license": "MIT",
   "keywords": [
     "claude-md",
     "project-setup",

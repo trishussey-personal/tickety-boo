@@ -30,21 +30,22 @@ All can be invoked as `/tickety-boo:<name>`. `learnings` and `cleanup` may also 
 
 Both are deliberately given no project history — the agent that built something is biased toward believing it works.
 
-The manuscript layout's `CLAUDE.md` also refers to `drafter`, `critic`, and `researcher` agents and a `writing-rag` source. Those are **not part of this plugin** — they are the author's own user-level agents and tools. If you don't have equivalents, the generated file still reads correctly; treat those lines as a description of the roles to fill (a voice-aware drafter, a fresh-context critic, a researcher) and swap in whatever you use.
+The manuscript layout looks for three writing roles among the agents you already have: a voice-aware drafter, a fresh-context critic, and a researcher. If it finds them, the generated `CLAUDE.md` names them; if not, it falls back to plain instructions. This plugin does not ship those agents.
 
 ## Install
-
-**Try it without installing** (CLI):
-
-```bash
-claude --plugin-dir ./tickety-boo
-```
 
 **Install for every session** (CLI and desktop app). The repo doubles as a single-plugin marketplace:
 
 ```bash
-claude plugin marketplace add ./tickety-boo
+claude plugin marketplace add trishussey-personal/tickety-boo
 claude plugin install tickety-boo@tickety-boo
+```
+
+**Try it without installing** (CLI), from a local clone:
+
+```bash
+git clone https://github.com/trishussey-personal/tickety-boo.git
+claude --plugin-dir ./tickety-boo
 ```
 
 After editing skills, `/reload-plugins`. Agents and hooks need a reload; `SKILL.md` edits take effect immediately.
@@ -60,3 +61,7 @@ After editing skills, `/reload-plugins`. Agents and hooks need a reload; `SKILL.
 ## What's deliberately not here
 
 Fan-out/fan-in research, stochastic consensus, model-chat debate, agent teams, auto-research, browser automation, Codex/Conductor hedges. Those are "how to run a big job" patterns, not "set up a project" ones, and belong in a separate plugin if wanted.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

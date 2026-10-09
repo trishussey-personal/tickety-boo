@@ -1,6 +1,6 @@
 ---
 name: security-auditor
-description: Fresh-context security audit of a project before it goes public or at the end of a build. Spawn from a new conversation, not the one that built the thing. Checks secrets exposure, .gitignore gaps, supply-chain risk, and domain-specific issues. Returns a fix list; does not implement fixes.
+description: Fresh-context security audit of a project before it goes public or at the end of a build. It starts with no project history, so it can be spawned from any conversation, including the one that built the thing. Checks secrets exposure, .gitignore gaps, supply-chain risk, and domain-specific issues. Returns a fix list; does not implement fixes.
 model: opus
 effort: high
 disallowedTools: [Write, Edit, NotebookEdit]

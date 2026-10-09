@@ -100,7 +100,7 @@ Fixed locations:
 - Run commands yourself rather than handing them back to be pasted. The only exception is a command that needs credentials only the user holds.
 - Never read, print, or echo the contents of `.env`. Refer to secrets by variable name. Never commit `.env`.
 - Before installing a package you have not used in this project before, confirm it exists, is the intended package (not a near-miss name), and has a real history.
-- After finishing any development pass, spawn a fresh QA reviewer with no project context (`tickety-boo:qa-reviewer`) before reporting done. Loop until it has nothing left.
+- After finishing any development pass, spawn a fresh QA reviewer with no project context (`tickety-boo:qa-reviewer`) before reporting done. Fix its blockers and should-fix items and re-run it; stop when only nits remain or after three rounds, and report anything still open.
 - When you make a mistake, append one dated line to **Lab notes** below describing what not to try next time, written for a future instance of you.
 - Whenever this file changes, `AGENTS.md` must match it (symlink, or re-sync).
 {{EXTRA_PREFERENCES}}
@@ -122,7 +122,7 @@ Fixed locations:
 Filling the placeholders:
 
 **`{{WORKSPACE_MAP}}`**
-- If there is meaningful code: scan it the way `/init` does. Write a compressed map — what the project is, stack, where the entry points, config, content, and scripts live, the build/dev/test commands, and anything structurally surprising (e.g. "the real app is in `new-astro-website/`, root is legacy export data"). Aim for pointers, not prose. A good test: could a fresh session answer "where does X live?" from this section without a search?
+- If there is meaningful code: scan it the way `/init` does. Write a compressed map — what the project is, stack, where the entry points, config, content, and scripts live, the build/dev/test commands, and anything structurally surprising (e.g. "the real app is in `web/`; the root holds legacy export data"). Aim for pointers, not prose. A good test: could a fresh session answer "where does X live?" from this section without a search?
 - If the folder is empty or nearly so: write two or three lines from `$ARGUMENTS` (or ask the user for a one-liner if none was given), and add the note: *"Project is new. Develop for a while before adding preferences; encode friction you have actually hit, not friction you expect."*
 
 **`{{EXTRA_PREFERENCES}}`**
@@ -157,6 +157,8 @@ A writing project. Same four-job CLAUDE.md, different scaffold, no code-shaped r
 ### M1. Take stock
 
 Note: `CLAUDE.md` / `.claude/CLAUDE.md` present? `.Ulysses-Group.plist` present (this is a Ulysses external folder — every `.md` is a sheet, every subfolder a group, dot-folders are hidden)? What `.md` files are already here and what do they look like (research, outline, chapter drafts)? git repo? If `CLAUDE.md` or `.claude/CLAUDE.md` exists, stop and point to `/tickety-boo:claude-md`.
+
+Also note which agents available in this session fill three writing roles: a **drafter** that writes in the author's voice, a **critic** that reviews with no prior context, and a **researcher** for fact and prior-art checks. Go by the agent list and descriptions you can see; do not guess names. Record the name for each role, or "none".
 
 ### M2. Scaffold
 
@@ -209,8 +211,8 @@ Instructions for Claude Code in this folder. This is a manuscript, not a codebas
 - Promoting a draft to `chapters/` is the author's call. Do not move files between `drafts/` and `chapters/` on your own.
 - Do not rename, move, or delete files without asking.{{ULYSSES_RENAME_NOTE}}
 {{ULYSSES_MARKDOWN_RULE}}
-- Drafting prose goes through the `drafter` agent, which reads the author's voice guide. Do not draft in a generic voice and hand it over.
-- Before a chapter or section is called done, run it through the `critic` agent with no prior context. It hunts for unsupported claims, clichés, and gaps; it does not rewrite.
+{{DRAFTING_RULE}}
+- Before a chapter or section is called done, get a critical read from {{CRITIC}} with no prior context. It hunts for unsupported claims, clichés, and gaps; it does not rewrite.
 - Research findings that change what the piece can claim go in **Lab notes** below as a dated line, so a future session does not re-research them.
 - Never put secrets or personal identifiers in these files; there is no `.env` here and there should not need to be.
 {{EXTRA_PREFERENCES}}
@@ -219,9 +221,7 @@ Instructions for Claude Code in this folder. This is a manuscript, not a codebas
 
 <!-- Agents and sources that apply to writing work, plus the autonomy expected. -->
 
-- `drafter` agent — drafts and edits in the author's voice; hand it settled substance, audience, and length.
-- `critic` agent — critical read before anything ships; returns findings by severity.
-- `researcher` agent — further prior-art and fact checks; give it a specific question and say how deep to go.
+{{AGENT_CAPABILITIES}}
 {{EXTRA_CAPABILITIES}}
 - Default autonomy: for a well-scoped ask (draft a section, tighten a chapter, check a claim), plan it, do it, review it, and report back.
 
@@ -240,15 +240,16 @@ Filling the placeholders:
 - `{{ULYSSES_LINE}}` — if `.Ulysses-Group.plist` exists: "- This is a **Ulysses external folder**: every `.md` is a sheet, every subfolder a group. Ulysses edits these files directly. `.Ulysses-*.plist` files are Ulysses' own metadata — never edit, move, or delete them." Otherwise remove the line.
 - `{{ULYSSES_RENAME_NOTE}}` — if Ulysses: " Ulysses keeps state by filename." Otherwise empty.
 - `{{ULYSSES_MARKDOWN_RULE}}` — if Ulysses: "- Plain Markdown that Ulysses renders cleanly: `#` headings, no YAML frontmatter, no HTML." Otherwise remove the line.
+- `{{DRAFTING_RULE}}` — if M1 found a drafter: "- Drafting prose goes through the `<drafter>` agent, which knows the author's voice. Do not draft in a generic voice and hand it over." If not: "- Match the author's voice from the existing chapters and drafts; if there is a style guide in `notes/`, follow it."
+- `{{CRITIC}}` — "the `<critic>` agent" if M1 found one, otherwise "a fresh subagent".
+- `{{AGENT_CAPABILITIES}}` — one line per role M1 filled, e.g. "- `<drafter>` agent — drafts and edits in the author's voice; hand it settled substance, audience, and length." Leave out roles with no agent; if none were found, remove the line.
 - `{{EXTRA_PREFERENCES}}` — only lines justified by what you found (a style guide file, a target length, a house convention). Usually empty.
 - `{{EXTRA_CAPABILITIES}}` — content sources that apply, e.g. a RAG over the author's published writing, if one is configured. Usually one line or empty.
 - `{{DATE}}` — today, ISO. **If existing research files contain findings that constrain the piece** (a term with baggage, a claim that is not novel, a source that fell through), seed Lab notes with them as dated lines instead of the empty placeholder. That is the highest-value thing this skill can do for a manuscript.
 
-Agents named above (`drafter`, `critic`, `researcher`) are the author's own; if they are not configured in this environment, keep the lines — they document intent — and say so in the report.
-
 ### M4. Report
 
-What was created, what was skipped, whether `CLAUDE.md` went to `.claude/` and why, and which existing files you would move where if the user wants (do not move them). Then:
+What was created, what was skipped, whether `CLAUDE.md` went to `.claude/` and why, which writing roles were filled by which agents (and which were not, so the user can add one later), and which existing files you would move where if the user wants (do not move them). Then:
 
 - Run `/tickety-boo:learnings` after each drafting session to compile lab notes.
 - Run `/tickety-boo:cleanup` when the root or `drafts/` gets cluttered.
