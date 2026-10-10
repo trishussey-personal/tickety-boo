@@ -10,7 +10,7 @@ tickety-boo is a Claude Code plugin (skills + agents, all Markdown, no build ste
 
 - `.claude-plugin/plugin.json` — plugin name, version, metadata. `marketplace.json` — the one-plugin marketplace entry pointing at `./`.
 - `skills/<name>/SKILL.md` — seven skills: `kickoff`, `claude-md`, `learnings`, `cleanup`, `sync`, `security`, `distill`. Only `learnings` and `cleanup` are model-invocable; the rest set `disable-model-invocation: true`.
-- `agents/` — `qa-reviewer` and `security-auditor`, both read-only via `disallowedTools`.
+- `agents/` — `qa-reviewer` and `security-auditor`, limited by a `tools:` allow-list to Read, Grep, Glob, and Bash (no Edit/Write tools; Bash could still write files, so the agent bodies forbid it).
 - `README.md` — user-facing docs; its skills and agents tables describe what is in `skills/` and `agents/`. `PHILOSOPHY.md` — the four-jobs rationale for environments without a filesystem. `LICENSE` — MIT.
 - Structurally surprising: skills are deliberately self-contained. `kickoff` inlines both CLAUDE.md templates (code and `--manuscript`), and `claude-md` restates the same standing rules, so a standing rule lives in two places.
 
@@ -51,8 +51,9 @@ Fixed locations:
 
 - 2026-10-08: Local-environment leaks testers flagged came from examples and templates lifted from the author's own projects (agent names, a voice guide, a tool block, a folder name, a `~/` install path), not from secrets. History has no secrets, but older commits still contain the removed personal strings, and every commit carries the author's email.
 - 2026-10-08: A symlink from a user-level skills folder to this repo does load the nested `skills/*/SKILL.md`, duplicating the installed plugin's copies. It was wrongly assumed to load nothing; check what actually loads before asserting it.
-- 2026-10-08: `kickoff` appends missing `.gitignore` lines, but an existing bare `active/` line makes the template's `!active/.gitkeep` negations inert (git can't re-include files inside an excluded folder). Unfixed in the skill.
-- 2026-10-08: `kickoff`'s writing-project heuristic ("only .md files, no manifest") is ambiguous on a plugin repo, which is all Markdown plus `plugin.json`. Treat `plugin.json` as a manifest.
+- 2026-10-08: `kickoff` appends missing `.gitignore` lines, but an existing bare `active/` line makes the template's `!active/.gitkeep` negations inert (git can't re-include files inside an excluded folder). Fixed in 0.5.0: kickoff now detects it and tells the user.
+- 2026-10-08: `kickoff`'s writing-project heuristic ("only .md files, no manifest") is ambiguous on a plugin repo, which is all Markdown plus `plugin.json`. Treat `plugin.json` as a manifest. Fixed in 0.5.0: kickoff now says so.
 - 2026-10-08: `claude plugin validate .` passes inside the sandbox; the network denials it prints (api.anthropic.com, datadoghq) are telemetry, not failures.
 - 2026-10-08: The prompt audit is the bundled `claude-api` skill's `prompt-audit` subcommand; there is no `/checkup` command.
-- 2026-10-08: Security audit run; 13 findings; report at `active/security/audit-2026-10-08.md`.
+- 2026-10-08: Security audit run; 13 findings; report kept locally (not in the repo). Fix-before-public items 1–5 and the hardening items, except history, fixed in 0.5.0.
+- 2026-10-10: In this zsh shell a bare word starting with `=` (e.g. `echo =====`) is expanded as a command path and aborts the whole compound command; use `echo ---` or quote it.

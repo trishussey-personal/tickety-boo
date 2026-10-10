@@ -25,10 +25,10 @@ All can be invoked as `/tickety-boo:<name>`. `learnings` and `cleanup` may also 
 
 | Agent | Purpose |
 |---|---|
-| `tickety-boo:qa-reviewer` | Fresh-context QA after a dev pass. The template `CLAUDE.md` tells Claude to spawn it before reporting done. Read-only. |
-| `tickety-boo:security-auditor` | Fresh-context security audit. Spawned by `/tickety-boo:security`. Read-only. |
+| `tickety-boo:qa-reviewer` | Fresh-context QA after a dev pass. The template `CLAUDE.md` tells Claude to spawn it before reporting done. Cannot edit files; has shell access to run checks. |
+| `tickety-boo:security-auditor` | Fresh-context security audit. Spawned by `/tickety-boo:security`. Cannot edit files; has shell access to run checks. |
 
-Both are deliberately given no project history — the agent that built something is biased toward believing it works.
+Both are deliberately given no project history — the agent that built something is biased toward believing it works. Both run on Opus at medium effort; the template allows up to three QA rounds per development pass, so expect the token cost of a few extra Opus calls per feature.
 
 The manuscript layout looks for three writing roles among the agents you already have: a voice-aware drafter, a fresh-context critic, and a researcher. If it finds them, the generated `CLAUDE.md` names them; if not, it falls back to plain instructions. This plugin does not ship those agents.
 
@@ -48,7 +48,7 @@ git clone https://github.com/trishussey-personal/tickety-boo.git
 claude --plugin-dir ./tickety-boo
 ```
 
-After editing skills, `/reload-plugins`. Agents and hooks need a reload; `SKILL.md` edits take effect immediately.
+When working on a local clone, `SKILL.md` edits take effect immediately; agent edits need `/reload-plugins`.
 
 ## The loop
 

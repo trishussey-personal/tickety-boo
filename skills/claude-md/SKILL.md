@@ -18,9 +18,9 @@ The standing rules every project's **Preferences & conventions** should carry (a
 - Run commands yourself rather than handing them back to be pasted, unless they need credentials only the user holds.
 - Never read, print, or echo the contents of `.env`; refer to secrets by name; never commit `.env`.
 - Before installing an unfamiliar package, confirm it exists, is the intended one (not a near-miss name), and has a real history.
-- After any development pass, spawn a fresh QA reviewer with no project context (`tickety-boo:qa-reviewer`) before reporting done.
-- On making a mistake, append a dated line to **Lab notes** for a future instance.
-- Whenever this file changes, `AGENTS.md` must match it.
+- After any development pass, spawn a fresh QA reviewer with no project context (`tickety-boo:qa-reviewer`) before reporting done; fix its blockers and should-fix items and re-run it, stopping when only nits remain or after three rounds, and report anything still open.
+- On making a mistake, append one dated line to **Lab notes** describing what not to try next time, for a future instance.
+- Whenever this file changes, `AGENTS.md` must match it (symlink, or re-sync).
 
 And the autonomy line for **Capabilities**: "Default autonomy: for a well-scoped task, plan it, build it, validate it, and report back. Do not check in mid-task on implementation details that do not change the request's scope."
 

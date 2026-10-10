@@ -27,6 +27,6 @@ Wait for its report.
 
 ## 3. Hand off, do not fix
 
-Present the auditor's findings to the user grouped as it returned them (fix now / fix before public / hardening / clean). Then recommend the next step: implement the fixes in a **new conversation or with a different agent**, so the implementer is not over-constrained by the audit context, and have Claude review last. Offer to write the findings to `active/security/audit-YYYY-MM-DD.md` so the fixing session can pick them up.
+Present the auditor's findings to the user grouped as it returned them (fix now / fix before public / hardening / clean). Then recommend the next step: implement the fixes in a **new conversation or with a different agent**, so the implementer is not over-constrained by the audit context, and have Claude review last. Offer to write the findings to `active/security/audit-YYYY-MM-DD.md` so the fixing session can pick them up; first confirm with `git check-ignore` that the path is ignored, and if it is not, say so and suggest a path that is.
 
-Add one dated line to **Lab notes** in `CLAUDE.md`: "Security audit run; N findings; report at <path>." (or "report not saved" if the user declined the file).
+Offer to add one dated line to **Lab notes** in `CLAUDE.md`: "Security audit run; N findings; report at <path>." (or "report not saved" if the user declined the file).
