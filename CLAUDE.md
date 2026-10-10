@@ -49,7 +49,7 @@ Fixed locations:
 
 <!-- Running log of dead ends. One dated line per entry, newest at the bottom. Failures prune the search space; record them as explicitly as successes. Compile with /tickety-boo:learnings after each feature. -->
 
-- 2026-10-08: Local-environment leaks testers flagged came from examples and templates lifted from the author's own projects (agent names, a voice guide, a tool block, a folder name, a `~/` install path), not from secrets. History has no secrets, but older commits still contain the removed personal strings, and every commit carries the author's email.
+- 2026-10-08: Local-environment leaks testers flagged came from examples and templates lifted from the author's own projects (agent names, a voice guide, a tool block, a folder name, a `~/` install path), not from secrets. History has no secrets. On 2026-10-10 history was rewritten to remove the personal strings and switch every commit to the GitHub noreply address; commit with that address (set `user.email` in this repo), or the email comes back.
 - 2026-10-08: A symlink from a user-level skills folder to this repo does load the nested `skills/*/SKILL.md`, duplicating the installed plugin's copies. It was wrongly assumed to load nothing; check what actually loads before asserting it.
 - 2026-10-08: `kickoff` appends missing `.gitignore` lines, but an existing bare `active/` line makes the template's `!active/.gitkeep` negations inert (git can't re-include files inside an excluded folder). Fixed in 0.5.0: kickoff now detects it and tells the user.
 - 2026-10-08: `kickoff`'s writing-project heuristic ("only .md files, no manifest") is ambiguous on a plugin repo, which is all Markdown plus `plugin.json`. Treat `plugin.json` as a manifest. Fixed in 0.5.0: kickoff now says so.
