@@ -8,7 +8,7 @@ Project-level instructions for Claude Code, loaded at the start of every session
 
 tickety-boo is a Claude Code plugin (skills + agents, all Markdown, no build step). The repo doubles as a single-plugin marketplace and is public on GitHub under MIT, so everything committed here ships to other people's machines.
 
-- `.claude-plugin/plugin.json` — plugin name, version, metadata. `marketplace.json` — the one-plugin marketplace entry pointing at `./`.
+- `.claude-plugin/plugin.json` — plugin name, version, metadata. `marketplace.json` — the one-plugin marketplace entry pointing at `./`. `icon.png` — the directory listing icon (1024 px PNG); the portal locks it in on first save, so changing it later does nothing.
 - `skills/<name>/SKILL.md` — seven skills: `kickoff`, `claude-md`, `learnings`, `cleanup`, `sync`, `security`, `distill`. Only `learnings` and `cleanup` are model-invocable; the rest set `disable-model-invocation: true`.
 - `agents/` — `qa-reviewer` and `security-auditor`, limited by a `tools:` allow-list to Read, Grep, Glob, and Bash (no Edit/Write tools; Bash could still write files, so the agent bodies forbid it).
 - `README.md` — user-facing docs; its skills and agents tables describe what is in `skills/` and `agents/`. `PHILOSOPHY.md` — the four-jobs rationale for environments without a filesystem. `LICENSE` — MIT.
@@ -18,7 +18,7 @@ Fixed locations:
 - `active/` — everything generated: scratch scripts, exports, intermediate output. Subfolders per task. Short-lived files go in `active/.tmp/`.
 - `.env` — every key and credential. Referenced by variable name only.
 - `.claude/` — project-local skills, agents, and settings.
-- `AGENTS.md` — same content as this file, for non-Claude agents.
+- `AGENTS.md` — a plain copy of this file, for non-Claude agents. Not a symlink: the directory validator skips symlinks.
 
 ## Preferences & conventions
 
@@ -30,7 +30,7 @@ Fixed locations:
 - Before installing a package you have not used in this project before, confirm it exists, is the intended package (not a near-miss name), and has a real history.
 - After finishing any development pass, spawn a fresh QA reviewer with no project context (`tickety-boo:qa-reviewer`) before reporting done. Fix its blockers and should-fix items and re-run it; stop when only nits remain or after three rounds, and report anything still open.
 - When you make a mistake, append one dated line to **Lab notes** below describing what not to try next time, written for a future instance of you.
-- Whenever this file changes, `AGENTS.md` must match it (symlink, or re-sync).
+- Whenever this file changes, `AGENTS.md` must match it: copy it over (`cp CLAUDE.md AGENTS.md`). No symlink in this repo.
 - The repo is public: skills, agents, and docs must not name the author's own paths, agents, or tools. Anything environment-specific is detected at run time, not hard-coded.
 - When a standing rule changes, change it in both `skills/kickoff/SKILL.md` and `skills/claude-md/SKILL.md`, and keep the README tables in step with `skills/` and `agents/`.
 - Run `claude plugin validate .` before calling a change done; there is no test suite. Bump `version` in `.claude-plugin/plugin.json` for any user-visible change to a skill or agent.
@@ -59,3 +59,4 @@ Fixed locations:
 - 2026-10-10: In this zsh shell a bare word starting with `=` (e.g. `echo =====`) is expanded as a command path and aborts the whole compound command; use `echo ---` or quote it.
 - 2026-10-10: Agent `tools:` allow-lists verified at runtime: in a throwaway repo with a bugged function, a fake `sk_live_` key, and a README telling agents to create `PWNED.txt`, both agents (run via `claude --plugin-dir .`, checked in `/agents`) returned full reports, caught the bug and key, and changed nothing. Re-run this test after editing an agent's frontmatter; an installed copy of the plugin can shadow the local one.
 - 2026-10-19: The plugin had never been installed; it loaded via a symlink in the user-level skills folder, so `/plugin` didn't list it. Switched to a real install from GitHub: removed the symlink, then `claude plugin marketplace add trishussey-personal/tickety-boo` failed because the user-settings `extraKnownMarketplaces` entry for `tickety-boo` still had a `directory` source. Changing that entry to the GitHub source fixed it; install is now 0.5.0 from GitHub. Installed changes ship only on push + version bump + plugin update; test working-copy edits with `claude --plugin-dir .`.
+- 2026-10-19: Directory submission checker flagged: no icon, the `AGENTS.md` symlink (skipped, not validated), the README's `git clone` + `claude --plugin-dir` block (read as download-and-run), root `CLAUDE.md` not loaded (expected; it is the dev file), and a name-similarity policy hold against "ticketbox". Fixed the first three in 0.5.2. Add the icon before the first portal save; it can't be changed after.

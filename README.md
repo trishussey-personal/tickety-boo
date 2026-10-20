@@ -34,21 +34,12 @@ The manuscript layout looks for three writing roles among the agents you already
 
 ## Install
 
-**Install for every session** (CLI and desktop app). The repo doubles as a single-plugin marketplace:
+Works in the CLI and the desktop app. The repo doubles as a single-plugin marketplace:
 
 ```bash
 claude plugin marketplace add trishussey-personal/tickety-boo
 claude plugin install tickety-boo@tickety-boo
 ```
-
-**Try it without installing** (CLI), from a local clone:
-
-```bash
-git clone https://github.com/trishussey-personal/tickety-boo.git
-claude --plugin-dir ./tickety-boo
-```
-
-When working on a local clone, `SKILL.md` edits take effect immediately; agent edits need `/reload-plugins`.
 
 ## The loop
 
