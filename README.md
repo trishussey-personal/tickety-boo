@@ -12,12 +12,12 @@ All can be invoked as `/tickety-boo:<name>`. `learnings` and `cleanup` may also 
 
 | Skill | When | What it does |
 |---|---|---|
-| `kickoff` | New project, or an old one with no `CLAUDE.md` | Scaffolds `active/`, `.env.example`, `.gitignore`, `.claude/`; writes a four-section `CLAUDE.md`; symlinks `AGENTS.md`. Additive only. |
+| `kickoff` | New project, or an old one with no `CLAUDE.md` | Scaffolds `active/`, `.env.example`, `.gitignore`, `.claude/`; writes a four-section `CLAUDE.md`; symlinks `AGENTS.md` (copies it instead in a Claude Code plugin repo, since the plugin directory validator skips symlinks). Additive only. |
 | `kickoff --manuscript` | A book, course, or long-form writing project | Scaffolds `chapters/` (settled), `drafts/` (in progress), `research/`, `notes/`, `media/`; writes a writing-shaped `CLAUDE.md` (at `.claude/CLAUDE.md` in Ulysses folders so it stays out of the sidebar); seeds lab notes from existing research. No `.env`, no `AGENTS.md`. |
 | `claude-md` | Existing project with a `CLAUDE.md` | Restructures it into the four sections without losing anything. Proposes before writing. `--rewrite` allows compression. |
 | `learnings` | After every feature | Compiles dead ends into dated lab notes, answers "how could this have been faster?", saves the answer as a preference. |
 | `cleanup` | Periodically | Tidies `active/`, checks nothing leaked into root. Asks before deleting. |
-| `sync` | When `AGENTS.md` drifts | Keeps `CLAUDE.md` / `AGENTS.md` (/ `GEMINI.md` with `--gemini`) in agreement. Prefers a symlink. |
+| `sync` | When `AGENTS.md` drifts | Keeps `CLAUDE.md` / `AGENTS.md` (/ `GEMINI.md` with `--gemini`) in agreement. Prefers a symlink; uses a plain copy in a Claude Code plugin repo. |
 | `security` | Before anything goes public | The 80/20 checklist, then hands off to the `security-auditor` agent. `--quick` for checklist only. |
 | `distill` | After several projects | Turns an `/insights` report or a sweep of lab notes into candidate lines for the global `~/.claude/CLAUDE.md`. Never writes the global file. |
 

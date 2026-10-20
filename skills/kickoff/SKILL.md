@@ -1,6 +1,6 @@
 ---
 name: kickoff
-description: Set up a project folder the tickety-boo way — scaffold folders, .gitignore, .claude/, and a four-section CLAUDE.md. Code projects get active/, .env.example, and an AGENTS.md symlink; --manuscript gets drafts/, research/, notes/, media/ and a Ulysses-friendly layout. Safe to run on an existing project; it only adds what is missing.
+description: Set up a project folder the tickety-boo way — scaffold folders, .gitignore, .claude/, and a four-section CLAUDE.md. Code projects get active/, .env.example, and an AGENTS.md symlink (a plain copy in a Claude Code plugin repo); --manuscript gets drafts/, research/, notes/, media/ and a Ulysses-friendly layout. Safe to run on an existing project; it only adds what is missing.
 disable-model-invocation: true
 argument-hint: "[--manuscript] [optional one-line description of the project]"
 ---
@@ -29,7 +29,7 @@ Run one pass to learn what is already here. Check for, and note the result of ea
 - `git` repo initialised?
 - Is there code? What language/framework (look for `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `*.astro`, etc.)? Roughly how big?
 
-If `CLAUDE.md` already exists, create the missing scaffold items from step 2, then stop and tell the user to run `/tickety-boo:claude-md`, which restructures an existing file conservatively.
+If `CLAUDE.md` already exists, create the missing scaffold items from step 2, then stop and tell the user to run `/tickety-boo:claude-md`, which restructures an existing file conservatively. If `.claude-plugin/plugin.json` exists and `AGENTS.md` is a symlink, also tell them the plugin directory validator flags symlinks and that `/tickety-boo:sync` replaces it with a plain copy.
 
 ## 2. Scaffold the four things every workspace needs
 
@@ -106,7 +106,7 @@ Fixed locations:
 - Before installing a package you have not used in this project before, confirm it exists, is the intended package (not a near-miss name), and has a real history.
 - After finishing any development pass, spawn a fresh QA reviewer with no project context (`tickety-boo:qa-reviewer`) before reporting done. Fix its blockers and should-fix items and re-run it; stop when only nits remain or after three rounds, and report anything still open.
 - When you make a mistake, append one dated line to **Lab notes** below describing what not to try next time, written for a future instance of you.
-- Whenever this file changes, `AGENTS.md` must match it (symlink, or re-sync).
+- Whenever this file changes, `AGENTS.md` must match it (symlink, or re-sync). In a Claude Code plugin repo (`.claude-plugin/plugin.json` exists), keep it a plain copy, not a symlink: the plugin directory validator skips symlinks.
 {{EXTRA_PREFERENCES}}
 
 ## Capabilities
@@ -141,7 +141,8 @@ If the scratch folder has a different name, substitute it throughout.
 
 ## 4. Keep AGENTS.md in sync
 
-- If `AGENTS.md` does not exist: create it as a relative symlink to `CLAUDE.md` (`ln -s CLAUDE.md AGENTS.md`).
+- If `AGENTS.md` does not exist (and is not a symlink, even a broken one): create it as a relative symlink to `CLAUDE.md` (`ln -s CLAUDE.md AGENTS.md`). Exception: if `.claude-plugin/plugin.json` exists, this is a Claude Code plugin, and the plugin directory's submission validator skips and flags symlinks, so write a plain copy instead (`cp CLAUDE.md AGENTS.md`) and tell the user it must be re-copied whenever `CLAUDE.md` changes.
+- If `AGENTS.md` is already a symlink: leave it. If `.claude-plugin/plugin.json` exists, tell the user the plugin directory validator flags symlinks and that `/tickety-boo:sync` replaces it with a plain copy.
 - If `AGENTS.md` exists as a real file with content: do not touch it. Tell the user it has content that `CLAUDE.md` does not, and that `/tickety-boo:sync` can merge them.
 - Leave `GEMINI.md` alone; mention it if present.
 

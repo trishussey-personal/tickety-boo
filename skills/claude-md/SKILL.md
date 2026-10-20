@@ -20,7 +20,7 @@ The standing rules every project's **Preferences & conventions** should carry (a
 - Before installing an unfamiliar package, confirm it exists, is the intended one (not a near-miss name), and has a real history.
 - After any development pass, spawn a fresh QA reviewer with no project context (`tickety-boo:qa-reviewer`) before reporting done; fix its blockers and should-fix items and re-run it, stopping when only nits remain or after three rounds, and report anything still open.
 - On making a mistake, append one dated line to **Lab notes** describing what not to try next time, for a future instance.
-- Whenever this file changes, `AGENTS.md` must match it (symlink, or re-sync).
+- Whenever this file changes, `AGENTS.md` must match it (symlink, or re-sync). In a Claude Code plugin repo (`.claude-plugin/plugin.json` exists), keep it a plain copy, not a symlink: the plugin directory validator skips symlinks.
 
 And the autonomy line for **Capabilities**: "Default autonomy: for a well-scoped task, plan it, build it, validate it, and report back. Do not check in mid-task on implementation details that do not change the request's scope."
 
@@ -40,11 +40,11 @@ Read `CLAUDE.md` (follow it if it is a symlink) and any `AGENTS.md` / `GEMINI.md
 - **Lab notes** — things tried, things that failed, dated or not.
 - **Unclassifiable** — keep it where it is and say so.
 
-Then note which of the four sections is missing or thin, and which of the standing rules above are absent.
+Then note which of the four sections is missing or thin, and which of the standing rules above are absent. Also note whether `AGENTS.md` is missing, a symlink, an identical copy of `CLAUDE.md`, or different from it; step 4 depends on this.
 
 ## 2. Propose before writing
 
-Show the user a short plan: the resulting section order, which existing lines move where, which standing rules would be added, and anything you are unsure how to classify. Ask for a go-ahead. This is the one step that wants a human, because a wrong preference costs every future session.
+Show the user a short plan: the resulting section order, which existing lines move where, which standing rules would be added, whether `AGENTS.md` will be re-copied (step 4), and anything you are unsure how to classify. Ask for a go-ahead. This is the one step that wants a human, because a wrong preference costs every future session.
 
 ## 3. Restructure
 
@@ -52,7 +52,7 @@ On go-ahead, write the new file in a single `Write` call:
 
 - Keep any existing header/intro if it has real content; otherwise use a one-paragraph intro naming the four jobs.
 - Sections in template order. Existing content goes into its section unchanged (conservative) or lightly compressed (`--rewrite`).
-- Add the missing standing rules to **Preferences & conventions**. Do not add rules the file already expresses in its own words.
+- Add the missing standing rules to **Preferences & conventions**. Do not add rules the file already expresses in its own words. Exception: if the file has the `AGENTS.md` rule but says nothing, in any wording, about plugin repos needing a plain copy, add the rule's second sentence.
 - Add the autonomy line to **Capabilities** if there is nothing equivalent.
 - If **Lab notes** is new, seed it with `- YYYY-MM-DD: (empty — first entry goes here)`. If there were dead-ends recorded elsewhere in the file, move them here as dated lines (use the git blame date if there is one, otherwise today's).
 - Fill the scratch-folder name in the standing rules from what the project actually uses (`active/`, `scratch/`, `tmp/`).
@@ -60,4 +60,5 @@ On go-ahead, write the new file in a single `Write` call:
 ## 4. Sync and report
 
 - If `AGENTS.md` is a symlink to `CLAUDE.md`, nothing to do. If it is a separate file, tell the user and suggest `/tickety-boo:sync`.
+- Exception: in a Claude Code plugin repo (`.claude-plugin/plugin.json` exists), `AGENTS.md` should be a plain copy, because the plugin directory validator skips symlinks. If step 1 found `AGENTS.md` identical to the old `CLAUDE.md`, re-copy it yourself (`cp CLAUDE.md AGENTS.md`, from wherever the restructured file lives); do not send it through `/tickety-boo:sync`, whose diff would treat the old wording as content to merge back. If it is missing, a symlink, or had content of its own, tell the user and suggest `/tickety-boo:sync`.
 - Report: sections added, lines moved, rules added, anything left unclassified. Mention that a `git diff` shows exactly what changed.

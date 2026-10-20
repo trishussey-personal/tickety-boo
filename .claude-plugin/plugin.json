@@ -1,7 +1,7 @@
 {
   "name": "tickety-boo",
   "description": "Project setup and upkeep: four-job CLAUDE.md, clean workspace, learnings loop, fresh-context QA and security audits.",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "author": {
     "name": "Tris Hussey"
   },
