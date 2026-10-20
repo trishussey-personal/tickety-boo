@@ -1,7 +1,7 @@
 {
   "name": "tickety-boo",
-  "description": "Project setup and upkeep, distilled from Nick Saraev's Claude Code Advanced Course: four-job CLAUDE.md, clean workspace, learnings loop, fresh-context QA and security audits.",
-  "version": "0.5.0",
+  "description": "Project setup and upkeep: four-job CLAUDE.md, clean workspace, learnings loop, fresh-context QA and security audits.",
+  "version": "0.5.1",
   "author": {
     "name": "Tris Hussey"
   },
